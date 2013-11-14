@@ -1,0 +1,102 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+    <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- build:css(.tmp) styles/plugins.css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="bower_components/qtip2/jquery.qtip.css">
+        <link rel="stylesheet" href="bower_components/toastr/toastr.css">
+        <!-- endbuild -->
+
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+    </head>
+
+    <body ng-app="U2bApp">
+        <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!--[if lt IE 9]>
+        <script src="bower_components/es5-shim/es5-shim.js"></script>
+        <script src="bower_components/json3/lib/json3.min.js"></script>
+        <![endif]-->
+
+        <div ng-controller="AppCtrl">
+            <div class="row" ng-show="!model.accessToken" style="display: none">
+                <div class="col-md-offset-4 col-md-4 col-sm-offset-4 col-sm-5 col-xs-offset-4 col-xs-6">
+                    <button class="btn btn-lg btn-block btn-primary" type="button" ng-click="model.authenticate()">log in</button>    
+                </div>
+            </div>
+
+            <div ng-show="model.accessToken" style="display: none" class="container" ng-view> </div>
+        </div>
+
+        <!-- build:js scripts/plugins.js -->
+        <script src="bower_components/jquery/jquery.js"></script>
+        <script src="bower_components/angular-unstable/angular.js"></script>
+        
+        <!-- angular-masonry -->
+        <script src="bower_components/jquery-bridget/jquery.bridget.js"></script>
+        <script src="bower_components/get-style-property/get-style-property.js"></script>
+        <script src="bower_components/get-size/get-size.js"></script>
+        <script src="bower_components/eventEmitter/EventEmitter.js"></script>
+        <script src="bower_components/eventie/eventie.js"></script>
+        <script src="bower_components/doc-ready/doc-ready.js"></script>
+        <script src="bower_components/matches-selector/matches-selector.js"></script>
+        <script src="bower_components/outlayer/item.js"></script>
+        <script src="bower_components/outlayer/outlayer.js"></script>
+        <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+        <script src="bower_components/masonry/masonry.js"></script>
+        <script src="bower_components/angular-masonry/angular-masonry.js"></script>
+        
+        <!-- qtip2 -->
+        <script src="bower_components/qtip2/jquery.qtip.js"></script>
+
+        <!-- moment -->
+        <script src="bower_components/momentjs/moment.js"></script>
+        <script src="bower_components/momentjs/lang/en-gb.js"></script>
+          
+        <!-- youtube-plugin -->
+        <script src="bower_components/jQuery-TubePlayer-Plugin/jQuery.tubeplayer.js"></script>
+        
+        <!-- angular-oauth -->
+        <script src="bower_components/angular-oauth/src/js/angularOauth.js"></script>
+        
+        <!-- store -->
+        <script src="bower_components/store/dist/store2.js"></script>
+        
+        <!-- bootstrap -->
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
+        
+        <!-- toastr -->
+        <script src="bower_components/toastr/toastr.js"></script>
+        
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/services/config.js"></script>
+        <script src="scripts/services/cache.js"></script>
+        <script src="scripts/services/notification.js"></script>
+        <script src="scripts/services/youtube.js"></script>
+        <script src="scripts/services/yt-parser.js"></script>
+        <script src="scripts/directives/tip.js"></script>
+        <script src="scripts/directives/yt-player.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>

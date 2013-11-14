@@ -1,0 +1,41 @@
+body {
+    font-size: 1.7em;
+}
+
+div.overlayed { position: absolute; width: 95%; }
+div.overlayed.header{ top: 15px; }
+div.overlayed.footer{ bottom: 15px; }
+
+div.video-info { cursor: default; }
+
+div.masonry-brick{ position: relative; opacity: 0; padding: 10px; }
+div.masonry-brick.loaded { opacity: 1; }
+div.masonry-brick.loaded img{ opacity: 0.9; box-shadow: 0 2px 4px rgba(34, 25, 25, 0.4); }
+div.masonry-brick.loaded  .fadded{ background-color: transparent; }
+div.masonry-brick.loaded  .fadded img{ opacity: 0.4; transition: opacity .5s ease; }
+div.masonry-brick.loaded  .highlighted{ background-color: black; }
+div.masonry-brick.loaded  .highlighted img{ opacity: 1; transition: opacity .5s ease; }
+div.masonry-brick.loaded  .video-info-title{
+    white-space: normal;   
+    float: left;    
+    padding: 5px;
+    width: 100%;
+    font-size: medium;
+    bottom: 0;
+    
+    background: rgba(255, 255, 255, 0.6);
+    color: black;
+}
+
+
+div.masonry-brick.loaded  .highlighted div.video-info .video-info-title{
+    background: rgba(0, 0, 0, 1);
+    color: white;
+    font-weight: bold;
+}
+div.masonry-brick.loaded  .fadded div.video-info .video-info-title{
+    opacity: 0.3;
+}
+
+
+

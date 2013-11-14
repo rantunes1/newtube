@@ -1,0 +1,74 @@
+
+<div class="row" ng-mouseleave="model.hideActiveVideo()">    
+    <div masonry column-width="50">
+        <div id="{{ video.id }}" class="masonry-brick" 
+            ng-repeat="video in model.subscriptionsfeed.videos" 
+            ng-mouseenter="model.setVideoActive(video)"    >
+            <div class="img-rounded"
+                 ng-class="{
+                     fadded: (model.activeVideo.id && model.activeVideo.id != video.id),
+                     highlighted: (model.activeVideo.id && model.activeVideo.id == video.id)
+                 }"
+                 style="width:{{ video.thumbnails[video.activeThumbnail].width }}px; height:{{ video.thumbnails[video.activeThumbnail].height }}px;">
+
+                
+                <div tip title="{{ video.description }}">
+                
+                    <img class="img-rounded img-responsive" 
+                         ng-click="model.highlightVideo(video)" 
+                         ng-src="{{ model.getVideoThumbnail(video) }}"                     
+                         alt="{{ video.title }}">
+                    
+                    <div class="overlayed video-info header" ng-show="model.activeVideo.id == video.id">                    
+                        <div class="row video-info">
+                            <div class="col-md-offset-1 col-md-4">
+                                <div class="video-info-views label label-warning" title="{{ video.ratings.viewCount | number}} views">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    <span>&nbsp;{{ video.ratings.viewCount | number }}</span>
+                                    <span ng-show="video.ratings.viewCount == 301">+</span>
+                                </div>
+                                <div class="video-info-comments label label-info" title="{{ video.comments.count | number }} comments">
+                                    <span class="glyphicon glyphicon-comment"></span>
+                                    <span>&nbsp;{{ video.comments.count | number }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-offset-3 col-md-2">
+                                <div class="video-info-duration label label-default" title="duration: {{video.duration * 1000 | date:'m:ss'}}">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                    <span>&nbsp;{{video.duration * 1000 | date:'m:ss'}}</span>
+                                </div>
+                            </div>                            
+                        </div>
+                          
+                        <div class="row video-info">
+                            <div class="col-md-offset-1 col-md-4">
+                                <div class="video-info-ratings label label-success" title="{{ video.ratings.numLikes | number }} likes">
+                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                    <span>&nbsp;{{video.ratings.numLikes | number }}</span>
+                                </div>
+                                <div class="video-info-ratings label label-danger" title="{{ video.ratings.numDislikes | number }} dislikes">
+                                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    <span>&nbsp;{{ video.ratings.numDislikes | number }}</span>
+                                </div>
+                            </div>
+                        </div>                 
+                    </div>
+                
+                    <div class="overlayed video-info footer caption label">
+                        <span class="video-info-title" ng-show="(model.activeVideo.id && model.activeVideo.id == video.id)">
+                            <a tip title="goto channel" ng-href="/channel/{{video.author.id}}">{{video.author.name}}</a> :
+                            <a tip title="view video" ng-href="/video/{{video.id}}">{{video.title}}</a>
+                        </span>                    
+                        <span class="video-info-title" ng-hide="(model.activeVideo.id && model.activeVideo.id == video.id)">
+                            <span>{{video.author.name}}</span> :
+                            <span>{{video.title}}</span>
+                        </span>
+                    </div>
+                </div>
+                
+                
+        </div>
+    </div>
+</div>
+
+<footer class="footer navbar-text">made by Ricardo Antunes 2013</footer>
