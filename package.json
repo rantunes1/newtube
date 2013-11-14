@@ -1,19 +1,22 @@
 {
-    "name": "u2b",
-    "version": "0.0.0",
-    "description": "u2b has it should have been",
-    "keywords": [
-        "video",
-        "web" 
-    ],
-    "homepage": "https://127.0.0.1:9009/",
-    "bugs": "https://127.0.0.1:9009/issues",
+    "name": "newtube",
+    "version": "0.1.0",
+    "description": "A new way to see youtube videos",
     "author": "Ricardo Antunes",
-    "main": "app/scripts/app.js",
+    "keywords": [
+        "angular",
+        "youtube",
+        "API",
+        "client",
+        "video"
+    ],
+    "homepage": "https://github.com/rantunes1/newtube",
+    "bugs": "https://github.com/rantunes1/newtube/issues",
     "repository": {
         "type": "git",
-        "url": "git://@not_defined"
+        "url": "https://github.com/rantunes1/newtube.git"
     },
+    "main": "app/scripts/app.js",
     "dependencies": {},
     "devDependencies": {
         "grunt": "~0.4.1",
