@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('U2bApp.directives.yt-player', [])
     .run([function(){
         if (!angular.element().tubeplayer) {

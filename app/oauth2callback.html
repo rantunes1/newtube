@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="angularOauth" ng-controller="CallbackCtrl">
+<html lang="en" ng-app="U2bApp.services.oauth" ng-controller="CallbackCtrl">
 <head>
   <meta charset="utf-8">
   <title>Receiving authentication</title>
@@ -7,8 +7,11 @@
 <body>
 <p>Finishing authentication...</p>
 
-<script src="bower_components/angular/angular.js"></script>
-        
-<script src="bower_components/angular-oauth/src/js/angularOauth.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/store/dist/store2.js"></script>
+    
+    <script src="scripts/services/config.js"></script>
+    <script src="scripts/services/cache.js"></script>
+    <script src="scripts/services/oauth.js"></script>
 </body>
 </html>

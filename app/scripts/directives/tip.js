@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('U2bApp.directives.tip', [])
     .run([function(){
         if (!angular.element().qtip) {
@@ -45,7 +47,7 @@ angular.module('U2bApp.directives.tip', [])
                         });
                         
                         
-                        api = element.qtip({
+                        element.qtip({
                             content: {
                                 text: html
                             },

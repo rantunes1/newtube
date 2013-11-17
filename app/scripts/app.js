@@ -1,16 +1,16 @@
-
 'use strict';
 
 window.U2bApp = angular
-    .module('U2bApp', [
-        'U2bApp.controllers',        
-        'ui.bootstrap',
-        'wu.masonry'
-    ])
+    .module('U2bApp', ['U2bApp.controllers'])
     
-    .config(['$locationProvider', '$httpProvider', '$routeProvider', 'TokenProvider', 
-        function ($locationProvider, $httpProvider, $routeProvider, TokenProvider) {
-
+    .config(['$locationProvider', '$httpProvider', '$routeProvider', function ($locationProvider, $httpProvider, $routeProvider) {
+        
+        $locationProvider.html5Mode(true);
+        
+        //enable CORS
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
         $routeProvider
             .when('/channel/:id', {
                 templateUrl: '../views/channel.html',
@@ -30,22 +30,6 @@ window.U2bApp = angular
             .otherwise({
                 redirectTo: '/'
               });
-              
-        TokenProvider.extendConfig({
-            clientId: '453427542929.apps.googleusercontent.com',
-            authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
-            redirectUri: 'https://localhost:9009/oauth2callback.html',
-            scopes: [
-                'https://www.googleapis.com/auth/youtube', 
-                'https://www.googleapis.com/auth/youtube.readonly',
-                'https://www.googleapis.com/auth/youtubepartner', 
-                'https://www.googleapis.com/auth/userinfo.email'],
-            verifyFunc: function(accessToken){
-                return accessToken;
-            }
-        });
-        
-        $locationProvider.html5Mode(true);
     }])
      
     .factory('$exceptionHandler', ['$log', function($log){

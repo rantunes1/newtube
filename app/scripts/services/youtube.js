@@ -1,6 +1,9 @@
+'use strict';
+
 angular.module('U2bApp.services.youtube', [
     'U2bApp.services.config', 
     'U2bApp.services.cache',
+    'U2bApp.services.oauth',
     'U2bApp.services.yt-parser',
     ])
     
@@ -8,9 +11,7 @@ angular.module('U2bApp.services.youtube', [
     
     .config(['$httpProvider',  'YTParserProvider', function ($httpProvider, YTParser) {
         
-        //enable CORS
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
                 
         var responseParser = function(data){
             if(!angular.isObject(data)){
@@ -20,8 +21,6 @@ angular.module('U2bApp.services.youtube', [
             if(data.data){
                 data = data.data;
             }
-            
-            console.log('parsing data %o ', data);
             
             var kind = data.kind;
             if(/channelListResponse$/.test(kind)){
@@ -98,25 +97,15 @@ angular.module('U2bApp.services.youtube', [
         
     }])
 
-    .factory('YTService', ['$http', '$q', 'ConfigService', 'CacheService', 'apiKey', function($http, $q, ConfigService, CacheService){
+    .factory('YTService', ['$http', '$q', '$log', 'ConfigService', 'CacheService', 'OAuthService', function($http, $q, $log, Config, Cache, OAuth){
         'use strict';
 
-        //@todo move to AuthService        
-        var _acessToken = null;
-        var setAccessToken = function(acessToken){
-            _acessToken = acessToken;
-        };
-        
-        var _getRequestConfig = function(extraParams){
-            if(!_acessToken){
-                throw 'YTService: no acess token set';
-            }
-            
+        var _getRequestConfig = function(extraParams){            
             return {
                 headers: {
-                     'Authorization' : 'Bearer ' + _acessToken,
+                     'Authorization' : 'Bearer ' + OAuth.getAccessToken(),
                      'GData-Version': '2',
-                     'X-GData-Key': 'key=' + ConfigService.getApiKey()
+                     'X-GData-Key': 'key=' + Config.getApiKey('google', 'youtube')
                 },
                 params: angular.extend({
                     alt: 'json'
@@ -129,7 +118,7 @@ angular.module('U2bApp.services.youtube', [
             
             userId = userId || 'default';
             
-            var userData = CacheService.get('u-' + userId);
+            var userData = Cache.get('u-' + userId);
             
             if(userData){
                 defer.resolve(userData);
@@ -141,8 +130,8 @@ angular.module('U2bApp.services.youtube', [
                 .then(
                     function(userResponse){
                         var user = userResponse.data;    
-                        console.warn('received user : ', user);                     
-                        defer.resolve(CacheService.put('u-' + userId, user));
+                        $log.warn('received user : ', user);                     
+                        defer.resolve(Cache.put('u-' + userId, user));
                     },
                     defer.reject
                 );
@@ -154,7 +143,7 @@ angular.module('U2bApp.services.youtube', [
         var getUserSubscriptions = function(){
             var defer = $q.defer();
             
-            var subscriptions = CacheService.get('subscriptions'); 
+            var subscriptions = Cache.get('subscriptions'); 
             
             if(subscriptions){
                 defer.resolve(subscriptions);
@@ -166,8 +155,8 @@ angular.module('U2bApp.services.youtube', [
                 .then(
                     function(subscriptionsResponse){
                         var subscriptions = subscriptionsResponse.data;    
-                        console.warn('received subscriptions : ', subscriptions);                     
-                        defer.resolve(CacheService.put('subscriptions', subscriptions));
+                        $log.warn('received subscriptions : ', subscriptions);                     
+                        defer.resolve(Cache.put('subscriptions', subscriptions));
                     },
                     defer.reject
                 );    
@@ -179,7 +168,7 @@ angular.module('U2bApp.services.youtube', [
         var getUserPlaylists = function(){
             var defer = $q.defer();
             
-            var playlists = CacheService.get('playlists');
+            var playlists = Cache.get('playlists');
             
             if(playlists){
                 defer.resolve(playlists);
@@ -192,8 +181,8 @@ angular.module('U2bApp.services.youtube', [
                         method: 'get'
                     })
                 ).then(function(playlists){
-                    console.warn('received playlists : ', playlists);
-                    defer.resolve(CacheService.put('playlists', playlists));
+                    $log.warn('received playlists : ', playlists);
+                    defer.resolve(Cache.put('playlists', playlists));
                 },defer.reject);    
             };
             
@@ -214,10 +203,10 @@ angular.module('U2bApp.services.youtube', [
             ).then( 
                 function(notificationsResponse){
                     var newNotifications = (notificationsResponse.data || {}).notifications;
-                    var existingNotifications = CacheService.get('notifications');
+                    var existingNotifications = Cache.get('notifications');
                     if(newNotifications && newNotifications.length !== 0){
                         if(!existingNotifications){
-                            CacheService.put('notifications', newNotifications.reverse()); //keep most recent at the end of the array
+                            Cache.put('notifications', newNotifications.reverse()); //keep most recent at the end of the array
                             defer.resolve([newNotifications.pop()]);                     
                             return;       
                         }
@@ -227,7 +216,7 @@ angular.module('U2bApp.services.youtube', [
                             var testNotification = newNotifications.pop();
                             if(testNotification.id === latest.id){ //we hit the previosly 'most recent'
                                 newNotifications = newNotifications || [];
-                                CacheService.put('notifications', existingNotifications.concat(newNotifications.reverse()));
+                                Cache.put('notifications', existingNotifications.concat(newNotifications.reverse()));
                                 defer.resolve(newNotifications);
                                 return;    
                             } 
@@ -244,7 +233,7 @@ angular.module('U2bApp.services.youtube', [
         var getUserChannel = function(){
             var defer = $q.defer();
             
-            var channel = CacheService.get('channel'); 
+            var channel = Cache.get('channel'); 
             
             if(channel){
                 defer.resolve(channel);
@@ -259,8 +248,8 @@ angular.module('U2bApp.services.youtube', [
                     })
                 ).then(function(channelResponse){
                     var channel = channelResponse.data;    
-                    console.warn('received channel : ', channel);                     
-                    defer.resolve(CacheService.put('channel', channel));
+                    $log.warn('received channel : ', channel);                     
+                    defer.resolve(Cache.put('channel', channel));
                 },defer.reject);
             }    
             
@@ -270,7 +259,7 @@ angular.module('U2bApp.services.youtube', [
         var getUserLikes = function(){
             var defer = $q.defer();
             
-            var likes = CacheService.get('likes'); 
+            var likes = Cache.get('likes'); 
             
             if(likes){
                 defer.resolve(likes);
@@ -287,8 +276,8 @@ angular.module('U2bApp.services.youtube', [
                     }))
                     .then(
                         function(likes){
-                            console.warn('received likes : ', likes);
-                            defer.resolve(CacheService.put('likes',likes));
+                            $log.warn('received likes : ', likes);
+                            defer.resolve(Cache.put('likes',likes));
                         },
                         defer.reject
                     );    
@@ -308,8 +297,6 @@ angular.module('U2bApp.services.youtube', [
         };
         
         return {        
-            setAccessToken: setAccessToken,
-            
             getUserData: getUserData,
             getUserSubscriptions: getUserSubscriptions,
             getUserPlaylists: getUserPlaylists,
