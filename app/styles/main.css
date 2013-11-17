@@ -1,5 +1,6 @@
 body {
     font-size: 1.7em;
+    background-color: #F1F1F1;
 }
 
 div.overlayed { position: absolute; width: 95%; }

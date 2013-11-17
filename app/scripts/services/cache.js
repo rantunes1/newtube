@@ -13,6 +13,7 @@ angular.module('U2bApp.services.cache', ['U2bApp.services.globals'])
         //the database
         var _storage = {};
     
+        //@todo? should this be in globals ?
         angular.element($window).on('unload', function() {
             store.setAll(_storage);
             //persist cache to local database on application exit
@@ -46,7 +47,7 @@ angular.module('U2bApp.services.cache', ['U2bApp.services.globals'])
                     //defaults to the string representation of the object.                    
                     return (key || value || '').toString();                        
                 }
-            }, options)
+            }, options);
             if (value) {
                 var key = options.getKey(key, value);
                 if (options.keepExisting === true) {

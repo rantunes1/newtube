@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('U2bApp.services.notifications', [])
+angular.module('U2bApp.services.notifications', ['U2bApp.services.globals'])
 
 .factory('NotificationsService', ['$log', 'toastr', function($log, toastr) {
     'use strict';

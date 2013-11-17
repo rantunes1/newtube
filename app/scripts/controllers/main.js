@@ -2,6 +2,7 @@
 
 angular
     .module('U2bApp.controllers', [
+        'U2bApp.services.globals', //@todo delete after removing dependencies to toastr
         'U2bApp.services.oauth',    
         'U2bApp.services.youtube',  
         'U2bApp.services.notifications',
