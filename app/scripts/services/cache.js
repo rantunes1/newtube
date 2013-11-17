@@ -1,23 +1,15 @@
 'use strict';
 
-angular.module('U2bApp.services.cache', [])
+angular.module('U2bApp.services.cache', ['U2bApp.services.globals'])
 
-.run(['$window',
-    function($window) {
-        if (!$window.store) {
-            throw new Error('missing "store.js" required to run CacheService');
-        }
-    }]
-)
-
-.factory('CacheService', ['$window', '$cacheFactory', '$log',
-    function($window, $cacheFactory, $log) {'use strict';
+.factory('CacheService', ['$window', '$cacheFactory', '$log', 'store',
+    function($window, $cacheFactory, $log, store) {
+        'use strict';
     
         var _cache = $cacheFactory('CACHE_SERVICE', {
             capacity : 5
         });
     
-        var store = $window.store;
         //the database
         var _storage = {};
     

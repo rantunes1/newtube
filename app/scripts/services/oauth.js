@@ -68,8 +68,6 @@ angular.module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.servi
                     token: token ? token : (tokenParam ? tokenVerification.get(tokenParam) : tokenDefinition) 
                 });    
             }
-            
-            
         };
                
         var getAccessToken = function(){

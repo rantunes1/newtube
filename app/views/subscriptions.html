@@ -22,18 +22,18 @@
                         <div class="row video-info">
                             <div class="col-md-offset-1 col-md-4">
                                 <div class="video-info-views label label-warning" title="{{ video.ratings.viewCount | number}} views">
-                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    <i class="fa fa-eye"></i>
                                     <span>&nbsp;{{ video.ratings.viewCount | number }}</span>
                                     <span ng-show="video.ratings.viewCount == 301">+</span>
                                 </div>
                                 <div class="video-info-comments label label-info" title="{{ video.comments.count | number }} comments">
-                                    <span class="glyphicon glyphicon-comment"></span>
+                                    <i class="fa fa-comment"></i>
                                     <span>&nbsp;{{ video.comments.count | number }}</span>
                                 </div>
                             </div>
                             <div class="col-md-offset-3 col-md-2">
                                 <div class="video-info-duration label label-default" title="duration: {{video.duration * 1000 | date:'m:ss'}}">
-                                    <span class="glyphicon glyphicon-time"></span>
+                                    <i class="fa fa-clock-o"></i>
                                     <span>&nbsp;{{video.duration * 1000 | date:'m:ss'}}</span>
                                 </div>
                             </div>                            
@@ -42,11 +42,19 @@
                         <div class="row video-info">
                             <div class="col-md-offset-1 col-md-4">
                                 <div class="video-info-ratings label label-success" title="{{ video.ratings.numLikes | number }} likes">
-                                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                                     <i class="fa fa-thumbs-up"></i>
+                                    <span class="fa-stack">
+                                        <i class="fa fa-circle-o fa-stack-2x"></i>
+                                        <i class="fa fa-thumbs-up fa-stack-1x "></i>
+                                    </span>
                                     <span>&nbsp;{{video.ratings.numLikes | number }}</span>
                                 </div>
                                 <div class="video-info-ratings label label-danger" title="{{ video.ratings.numDislikes | number }} dislikes">
-                                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span class="fa-stack">
+                                        <i class="fa fa-circle-o fa-stack-2x"></i>
+                                        <i class="fa fa-thumbs-down fa-stack-1x"></i>
+                                    </span>
                                     <span>&nbsp;{{ video.ratings.numDislikes | number }}</span>
                                 </div>
                             </div>

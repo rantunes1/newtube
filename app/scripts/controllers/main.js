@@ -19,8 +19,8 @@ angular
         });       
     }])
     
-    .controller('AppCtrl', ['$window', '$rootScope', '$scope', '$timeout', '$log', 'OAuthService', 'YTService', 
-    function($window, $rootScope, $scope, $timeout, $log, OAuth, YTService){
+    .controller('AppCtrl', ['$window', '$rootScope', '$scope', '$timeout', '$log', 'toastr', 'OAuthService', 'YTService', 
+    function($window, $rootScope, $scope, $timeout, $log, toastr, OAuth, YTService){
         $log.log('CONTROLLER: App');
         
         $scope.model = {};
@@ -90,7 +90,7 @@ angular
                     angular.forEach(notifications, function(notification){
                         $timeout(function(){
                             //@todo call NotificationsService
-                            $window.toastr.info('notification :' + notification.title);        
+                            toastr.info('notification :' + notification.title);        
                         }, 0);
                     });
                         
