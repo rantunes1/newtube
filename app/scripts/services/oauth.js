@@ -1,11 +1,10 @@
-'use strict';
-
-angular.module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.services.cache'])
+angular
+    .module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.services.cache'])
 
     //implementation of this service was based on [angular-oauth] [https://github.com/enginous/angular-oauth]
     
-    .factory('OAuthService', ['$window', '$http', '$q', '$rootScope', '$log', 'ConfigService', 'CacheService', 
-        function ($window, $http, $q, $rootScope, $log, Config, Cache) {
+    .factory('OAuthService', ['$window', '$http', '$q', '$rootScope', '$log', 'ConfigService', 'CacheService', function ($window, $http, $q, $rootScope, $log, Config, Cache) {
+        'use strict';
         
         var INVALID_TOKEN = '#invalid#';
         var AUTH_PROVIDER = 'google';
@@ -47,13 +46,13 @@ angular.module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.servi
                             $log.log('verification response : ',verification);
                             
                             var checkFieldParam = tokenVerification ? tokenVerification.get('checkField') : null;
-                            var checkField = checkFieldParam ? oauthConfig.get(checkFieldParam) : null; 
+                            //var checkField = checkFieldParam ? oauthConfig.get(checkFieldParam) : null; 
                                                         
                             if(oauthConfig.get(checkFieldParam) === verification.audience){
                                 delete verification.audience;
                                 Cache.put('ua', { 
                                     token: token,
-                                    //@todo is it sage to store the verification token?
+                                    //@todo is it safe to store other attributes?
                                     verification: verification
                                 });
                             }
@@ -96,7 +95,7 @@ angular.module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.servi
             var popup = $window.open(url, 'authentication', 'width=650,height=300,resizable=yes,scrollbars=yes,status=yes');
             angular.element($window).on('message', function(event) {
                 event = event.originalEvent || event;
-                if (event.source == popup && event.origin == window.location.origin) {
+                if (event.source === popup && event.origin === window.location.origin) {
                     setToken(event.data, oauthConfig);
                 }
             });
@@ -117,7 +116,8 @@ angular.module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.servi
     }])
     
     .controller('CallbackCtrl', function($scope, $location) {
-
+        'use strict';
+        
         /**
          * Parses an escaped url query string into key-value pairs.
          *
@@ -125,17 +125,17 @@ angular.module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.servi
          *
          * @returns Object.<(string|boolean)>
          */
-        function parseKeyValue(/**string*/keyValue) {
-          var obj = {}, key_value, key;
-          angular.forEach((keyValue || "").split('&'), function(keyValue){
-            if (keyValue) {
-              key_value = keyValue.split('=');
-              key = decodeURIComponent(key_value[0]);
-              obj[key] = angular.isDefined(key_value[1]) ? decodeURIComponent(key_value[1]) : true;
-            }
-          });
-          return obj;
-        }
+        var parseKeyValue = function (/**string*/keyValue) {
+            var obj = {}, keyValuePair, key;
+            angular.forEach((keyValue || '').split('&'), function(keyValue){
+                if (keyValue) {
+                    keyValuePair = keyValue.split('=');
+                    key = decodeURIComponent(keyValuePair[0]);
+                    obj[key] = angular.isDefined(keyValuePair[1]) ? decodeURIComponent(keyValuePair[1]) : true;
+                }
+            });
+            return obj;
+        };
     
         var queryString = $location.path().substring(1);  // preceding slash omitted
         var params = parseKeyValue(queryString);
@@ -144,6 +144,6 @@ angular.module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.servi
         //       the token if it manages to change the location of the parent. (See:
         //       https://developer.mozilla.org/en/docs/DOM/window.postMessage#Security_concerns)
     
-        window.opener.postMessage(params, "*");
+        window.opener.postMessage(params, '*');
         window.close();
-      });
+    });

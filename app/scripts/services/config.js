@@ -1,6 +1,7 @@
-'use strict';
-
-angular.module('U2bApp.services.config', [])
+angular
+    .module('U2bApp.services.config', [])
+    
+    .constant('INVALID_TOKEN','_invalid_')
     
     //@todo - move to GoogleOAuthService that sould be a subclass of AuthSer
     .constant('providers', [{
@@ -13,9 +14,9 @@ angular.module('U2bApp.services.config', [])
             }
         },
         oauth: {
-            client_id: '453427542929.apps.googleusercontent.com',                
-            redirect_uri: 'https://localhost:9009/oauth2callback.html',
-            response_type: 'token',
+            'client_id': '453427542929.apps.googleusercontent.com',                
+            'redirect_uri': 'https://localhost:9009/oauth2callback.html',
+            'response_type': 'token',
             url: 'https://accounts.google.com/o/oauth2/auth',
             scope: [
                 'https://www.googleapis.com/auth/youtube', 
@@ -23,9 +24,9 @@ angular.module('U2bApp.services.config', [])
                 'https://www.googleapis.com/auth/youtubepartner', 
                 'https://www.googleapis.com/auth/userinfo.email'
             ].join(' '),
-            approval_prompt: 'auto' || 'force',
+            'approval_prompt': 'auto' || 'force',
             state: null,
-            login_hint: null    
+            'login_hint': null    
         },
         verification:{
             url: 'https://www.googleapis.com/oauth2/v1/tokeninfo',
@@ -34,17 +35,18 @@ angular.module('U2bApp.services.config', [])
         }
     }])
         
-    //@todo make this a 'moduke.provider' and receive the constants upon service initialization
-    .factory('ConfigService', ['providers', '$log', function (providers, $log) {
+    //@todo make this a 'module.provider' and receive the constants upon service initialization
+    .factory('ConfigService', ['providers', 'INVALID_TOKEN', function (providers, INVALID_TOKEN) {
+        'use strict';
         
         var config = {
             providers : {}
         };
         
         angular.forEach(providers,  function(provider){ 
-            config.providers[provider.id || '_invalid_'] = provider; 
+            config.providers[provider.id || INVALID_TOKEN] = provider; 
         });
-        if (config.providers['_invalid_']){
+        if (config.providers[INVALID_TOKEN]){
             throw new Error('CONFIG: provider has no id attribute ');
         }
         

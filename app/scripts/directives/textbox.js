@@ -1,13 +1,15 @@
-'use strict';
-
-angular.module('U2bApp.directives.textbox', ['U2bApp.plugins.tip'])    
-    .directive('textbox', ['$window', 'tip', function($window, tip) {
+angular
+    .module('U2bApp.directives.textbox', ['U2bApp.plugins.tip'])    
+    
+    .directive('textbox', ['$window', 'tip', function($window, tip) { 
+        'use strict';
+        
         var windowElem = angular.element($window);
         return {
             restrict: 'EA',
-           link: function (scope, element, attr) {
-               scope.$on('$destroy', function () {
-                   tip(element,'destroy');
+            link: function (scope, element, attr) {
+                scope.$on('$destroy', function () {
+                    tip(element,'destroy');
                 });
                
                 scope.$watch(

@@ -1,9 +1,10 @@
-'use strict';
-
 window.U2bApp = angular
     .module('U2bApp', ['U2bApp.controllers'])
     
+    .value('version', '1.0.0')
+    
     .config(['$locationProvider', '$httpProvider', '$routeProvider', function ($locationProvider, $httpProvider, $routeProvider) {
+        'use strict';
         
         $locationProvider.html5Mode(true);
         
@@ -29,10 +30,12 @@ window.U2bApp = angular
             
             .otherwise({
                 redirectTo: '/'
-              });
+            });
     }])
      
     .factory('$exceptionHandler', ['$log', function($log){
+        'use strict';
+        
         return function(exception){
             $log.error('exception: %o\n%o', exception.message || exception, exception.stack || '<no stacktrace available>');            
         };

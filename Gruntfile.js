@@ -1,5 +1,4 @@
 // Generated on 2013-10-19 using generator-angular 0.5.0
-'use strict';
 
 // # Globbing
 // for performance reasons we're only matching one level down:
@@ -8,6 +7,8 @@
 // 'test/spec/**/*.js'
 
 module.exports = function(grunt) {
+    'use strict';
+
     require('load-grunt-tasks')(grunt);
     require('time-grunt')(grunt);
 
@@ -30,7 +31,7 @@ module.exports = function(grunt) {
                     key : '<%= connect.options.key %>',
                     cert : '<%= connect.options.cert %>'
                 },
-                files : ['<%= yeoman.app %>/{,*/}*.html', '.tmp/styles/{,*/}*.css', '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js', '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}']
+                files : ['<%= yeoman.app %>/{,*/}*.html', '.tmp/styles/{,*/}*.css', '{.tmp,<%= yeoman.app %>}/scripts/**/*.js', '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}']
             }
         },
 
@@ -91,7 +92,7 @@ module.exports = function(grunt) {
             options : {
                 jshintrc : '.jshintrc'
             },
-            all : ['Gruntfile.js', '<%= yeoman.app %>/scripts/{,*/}*.js']
+            all : ['Gruntfile.js', '<%= yeoman.app %>/scripts/**/*.js']
         },
 
         // not used since Uglify task does concat,
@@ -103,7 +104,7 @@ module.exports = function(grunt) {
         rev : {
             dist : {
                 files : {
-                    src : ['<%= yeoman.dist %>/scripts/{,*/}*.js', '<%= yeoman.dist %>/styles/{,*/}*.css', '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', '<%= yeoman.dist %>/styles/fonts/*']
+                    src : ['<%= yeoman.dist %>/scripts/**/*.js', '<%= yeoman.dist %>/styles/{,*/}*.css', '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}', '<%= yeoman.dist %>/styles/fonts/*']
                 }
             }
         },
@@ -120,17 +121,6 @@ module.exports = function(grunt) {
             css : ['<%= yeoman.dist %>/styles/{,*/}*.css'],
             options : {
                 dirs : ['<%= yeoman.dist %>']
-            }
-        },
-
-        imagemin : {
-            dist : {
-                files : [{
-                    expand : true,
-                    cwd : '<%= yeoman.app %>/images',
-                    src : '{,*/}*.{png,jpg,jpeg}',
-                    dest : '<%= yeoman.dist %>/images'
-                }]
             }
         },
 
@@ -211,7 +201,7 @@ module.exports = function(grunt) {
         concurrent : {
             server : ['copy:styles'],
             test : ['copy:styles'],
-            dist : ['copy:styles', 'imagemin', 'svgmin', 'htmlmin']
+            dist : ['copy:styles', 'svgmin', 'htmlmin']
         },
 
         karma : {

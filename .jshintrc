@@ -19,6 +19,8 @@
   "trailing": false,
   "smarttabs": false,
   "globals": {
-    "angular": true
+    "angular": true,
+    "module": true,
+    "require": true
   }
 }

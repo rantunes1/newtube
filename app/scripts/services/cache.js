@@ -1,9 +1,7 @@
-'use strict';
+angular
+    .module('U2bApp.services.cache', ['U2bApp.plugins.store'])
 
-angular.module('U2bApp.services.cache', ['U2bApp.plugins.store'])
-
-.factory('CacheService', ['$window', '$cacheFactory', '$log', 'store',
-    function($window, $cacheFactory, $log, store) {
+    .factory('CacheService', ['$window', '$cacheFactory', '$log', 'store', function($window, $cacheFactory, $log, store) {
         'use strict';
     
         var _cache = $cacheFactory('CACHE_SERVICE', {
@@ -50,7 +48,7 @@ angular.module('U2bApp.services.cache', ['U2bApp.plugins.store'])
                 }
             }, options);
             if (value) {
-                var key = options.getKey(key, value);
+                key = options.getKey(key, value);
                 if (options.keepExisting === true) {
                     var current = get(key);
                     if (current) {
@@ -88,5 +86,4 @@ angular.module('U2bApp.services.cache', ['U2bApp.plugins.store'])
             put : put,
             get : get
         };
-    }]
-); 
+    }]); 

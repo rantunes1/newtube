@@ -1,17 +1,13 @@
-'use strict';
-
-angular.module('U2bApp.services.youtube', [
-    'U2bApp.services.config', 
-    'U2bApp.services.cache',
-    'U2bApp.services.oauth',
-    'U2bApp.services.yt-parser',
+angular
+    .module('U2bApp.services.youtube', [
+        'U2bApp.services.config', 
+        'U2bApp.services.cache',
+        'U2bApp.services.oauth',
+        'U2bApp.services.yt-parser',
     ])
     
-    .value('version', '1.0.0')
-    
-    .config(['$httpProvider',  'YTParserProvider', function ($httpProvider, YTParser) {
-        
-        
+    .config(['$httpProvider',  'YTParserProvider', function ($httpProvider, YTParser) { 
+        'use strict';
                 
         var responseParser = function(data){
             if(!angular.isObject(data)){
@@ -97,15 +93,15 @@ angular.module('U2bApp.services.youtube', [
         
     }])
 
-    .factory('YTService', ['$http', '$q', '$log', 'ConfigService', 'CacheService', 'OAuthService', function($http, $q, $log, Config, Cache, OAuth){
+    .factory('YTService', ['$http', '$q', '$log', 'ConfigService', 'CacheService', 'OAuthService', function($http, $q, $log, Config, Cache, OAuth){ 
         'use strict';
 
         var _getRequestConfig = function(extraParams){            
             return {
                 headers: {
-                     'Authorization' : 'Bearer ' + OAuth.getAccessToken(),
-                     'GData-Version': '2',
-                     'X-GData-Key': 'key=' + Config.getApiKey('google', 'youtube')
+                    'Authorization' : 'Bearer ' + OAuth.getAccessToken(),
+                    'GData-Version': '2',
+                    'X-GData-Key': 'key=' + Config.getApiKey('google', 'youtube')
                 },
                 params: angular.extend({
                     alt: 'json'
@@ -180,11 +176,14 @@ angular.module('U2bApp.services.youtube', [
                         url: 'https://gdata.youtube.com/feeds/api/users/default/playlists',
                         method: 'get'
                     })
-                ).then(function(playlists){
-                    $log.warn('received playlists : ', playlists);
-                    defer.resolve(Cache.put('playlists', playlists));
-                },defer.reject);    
-            };
+                ).then(
+                    function(playlists){
+                        $log.warn('received playlists : ', playlists);
+                        defer.resolve(Cache.put('playlists', playlists));
+                    },
+                    defer.reject
+                );    
+            }
             
             return defer.promise;
         };
@@ -246,11 +245,14 @@ angular.module('U2bApp.services.youtube', [
                         url: 'https://www.googleapis.com/youtube/v3/channels',
                         method: 'get'
                     })
-                ).then(function(channelResponse){
-                    var channel = channelResponse.data;    
-                    $log.warn('received channel : ', channel);                     
-                    defer.resolve(Cache.put('channel', channel));
-                },defer.reject);
+                ).then(
+                    function(channelResponse){
+                        var channel = channelResponse.data;    
+                        $log.warn('received channel : ', channel);                     
+                        defer.resolve(Cache.put('channel', channel));
+                    },
+                    defer.reject
+                );
             }    
             
             return defer.promise;
@@ -265,15 +267,15 @@ angular.module('U2bApp.services.youtube', [
                 defer.resolve(likes);
             }else{
                 var getLikes = function(playlistId){
-                $http(angular.extend({},_getRequestConfig(
-                    {
-                        part: 'contentDetails',
-                        maxResults: 50,
-                        playlistId: playlistId
-                    }),{
-                        url: 'https://www.googleapis.com/youtube/v3/playlistItems',
-                        method: 'get'
-                    }))
+                    $http(angular.extend({},_getRequestConfig(
+                        {
+                            part: 'contentDetails',
+                            maxResults: 50,
+                            playlistId: playlistId
+                        }),{
+                            url: 'https://www.googleapis.com/youtube/v3/playlistItems',
+                            method: 'get'
+                        }))
                     .then(
                         function(likes){
                             $log.warn('received likes : ', likes);

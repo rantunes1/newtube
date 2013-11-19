@@ -1,5 +1,3 @@
-'use strict';
-
 angular
     .module('U2bApp.controllers', [
         'U2bApp.plugins.toastr', //@todo delete after removing dependencies to toastr (implement NotificatonsService)
@@ -12,7 +10,9 @@ angular
         'wu.masonry'
     ])
     
-    .run(['$window', '$rootScope', function($window, $rootScope){
+    .run(['$window', '$rootScope', function($window, $rootScope){   
+        'use strict';
+        
         $rootScope.windowWidth = $window.outerWidth;
         angular.element($window).on('resize',function(){
             $rootScope.windowWidth = $window.outerWidth;
@@ -20,8 +20,10 @@ angular
         });       
     }])
     
-    .controller('AppCtrl', ['$window', '$rootScope', '$scope', '$timeout', '$log', 'toastr', 'OAuthService', 'YTService', 
-    function($window, $rootScope, $scope, $timeout, $log, toastr, OAuth, YTService){
+    .controller('AppCtrl', ['$rootScope', '$scope', '$timeout', '$log', 'toastr', 'OAuthService', 'YTService', 
+    function($rootScope, $scope, $timeout, $log, toastr, OAuth, YTService){ 
+        'use strict';
+        
         $log.log('CONTROLLER: App');
         
         $scope.model = {};
@@ -33,9 +35,8 @@ angular
             $scope.model.accessToken = null;
         });
         
-        $rootScope.$watch('windowWidth',function(newVal, oldVal){
+        $rootScope.$watch('windowWidth',function(newVal){
             $log.log('window resized to ', newVal);
-            //@todo? $rootScope.$broadcast('masonry.reload');
         });
         
         $scope.$watch( OAuth.isAuthenticated, 
@@ -111,22 +112,27 @@ angular
                 };
 
                 checkForEvents();
-
-        });
+            }
+        );
     }])
 
-    .controller('ChanelCtrl', ['$log', function($log){
+    .controller('ChanelCtrl', ['$log', function($log){ 
+        'use strict';
+        
         $log.log('CONTROLLER: Channel');
     }])
     
-    .controller('VideoCtrl', ['$scope','$routeParams', '$log', function($scope, $routeParams, $log){
+    .controller('VideoCtrl', ['$scope','$routeParams', '$log', function($scope, $routeParams, $log){ 
+        'use strict';
+        
         $log.log('CONTROLLER: Video');
         
         $scope.model.playingVideoId = $routeParams.videoId;
     }])
     
-    .controller('SubscriptionsCtrl', ['$window', '$rootScope', '$scope', '$log', function($window, $rootScope, $scope, $log) {
-
+    .controller('SubscriptionsCtrl', ['$scope', '$log', function($scope, $log) { 
+        'use strict';
+        
         $log.log('CONTROLLER: Subscriptions');
         
         $scope.model.highlightVideo = function(video){
@@ -150,9 +156,9 @@ angular
         
         $scope.model.getVideoThumbnail = function(video){
             if(video){
-                var isActive = $scope.model.activeVideo && $scope.model.activeVideo.id == video.id;
+                //var isActive = $scope.model.activeVideo && $scope.model.activeVideo.id === video.id;
                 //if(!isActive){
-                    return video.thumbnails[(video.activeThumbnail || 'mqdefault')].url;
+                return video.thumbnails[(video.activeThumbnail || 'mqdefault')].url;
                 //}   
                 /*
                 if(!video.thumbnailsSeq){
