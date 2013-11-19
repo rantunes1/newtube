@@ -1,13 +1,7 @@
 'use strict';
 
-angular.module('U2bApp.directives.yt-player', [])
-    .run([function(){
-        if (!angular.element().tubeplayer) {
-            throw new Error('missing "jQuery.tubeplayer.js" required by the YT-Player directive');
-        }
-    }])
-    
-    .directive('ytPlayer', ['$window', function($window) {
+angular.module('U2bApp.directives.yt-player', ['U2bApp.plugins.tubeplayer'])
+    .directive('ytPlayer', ['tubeplayer', function(tubeplayer) {
         return {
             restrict: 'EA',
             scope:{
@@ -15,11 +9,11 @@ angular.module('U2bApp.directives.yt-player', [])
             },
             link: function (scope, element, attr) {
                scope.$on('$destroy', function () {
-                    element.tubeplayer('destroy');
+                    tubeplayer(element,'destroy');
                 });
                 
                               
-                element.tubeplayer({
+                tubeplayer(element, {
                     protocol: 'https',
                     width: 600, // the width of the player
                     height: 450, // the height of the player

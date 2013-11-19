@@ -1,18 +1,13 @@
 'use strict';
 
-angular.module('U2bApp.directives.tip', [])
-    .run([function(){
-        if (!angular.element().qtip) {
-            throw new Error('missing "jquery.qtip.js" required by the Tip directive');
-        }
-    }])
-    
-    .directive('tip', ['$window', function($window) {
+angular.module('U2bApp.directives.textbox', ['U2bApp.plugins.tip'])    
+    .directive('textbox', ['$window', 'tip', function($window, tip) {
+        var windowElem = angular.element($window);
         return {
             restrict: 'EA',
            link: function (scope, element, attr) {
                scope.$on('$destroy', function () {
-                    element.qtip('destroy');
+                   tip(element,'destroy');
                 });
                
                 scope.$watch(
@@ -20,7 +15,7 @@ angular.module('U2bApp.directives.tip', [])
                         return element.width();
                     },
                     function(){
-                        element.qtip('reposition');
+                        tip(element,'reposition');
                     }
                 );
 
@@ -28,7 +23,7 @@ angular.module('U2bApp.directives.tip', [])
                     function(){
                         return attr.title;
                     } , 
-                    function qtip(value){
+                    function (value){
                         var text = (value || '>> no description <<');
                         var html = '';                        
                         angular.forEach(text, function(char){
@@ -46,8 +41,7 @@ angular.module('U2bApp.directives.tip', [])
                             html = html.replace(url,anchor);
                         });
                         
-                        
-                        element.qtip({
+                        tip(element,{
                             content: {
                                 text: html
                             },
@@ -63,7 +57,7 @@ angular.module('U2bApp.directives.tip', [])
                                 my: 'top left',
                                 at: 'center right',
                                 target: element,
-                                viewport: angular.element($window),
+                                viewport: windowElem,
                                 adjust:{
                                     method: 'flip shift'
                                 }

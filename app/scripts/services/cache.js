@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('U2bApp.services.cache', ['U2bApp.services.globals'])
+angular.module('U2bApp.services.cache', ['U2bApp.plugins.store'])
 
 .factory('CacheService', ['$window', '$cacheFactory', '$log', 'store',
     function($window, $cacheFactory, $log, store) {
@@ -34,7 +34,8 @@ angular.module('U2bApp.services.cache', ['U2bApp.services.globals'])
                     }
                 }
             }
-            $log.log(( fromStore ? 'STORE' : 'CACHE') + ' : read [%o] : %o', key, value);
+            //@todo allow logging to be Config-urable
+            //$log.log(( fromStore ? 'STORE' : 'CACHE') + ' : read [%o] : %o', key, value);
             return value;
         };
     
