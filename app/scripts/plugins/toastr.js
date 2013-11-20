@@ -4,7 +4,7 @@ angular
     .run(['$window',function($window) { 
         'use strict';
         
-        if (!$window.toastr) { throw new Error('missing "toastr.js" required to show notification messages'); }
+        if (!$window.toastr) { throw new Error('missing <toastr.js>'); }
     }])
     
     .factory('toastr', ['$window', function($window) { 

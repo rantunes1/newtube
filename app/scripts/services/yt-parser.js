@@ -1,8 +1,11 @@
 angular
-    .module('U2bApp.services.yt-parser', [])
+    .module('U2bApp.services.yt-parser', ['U2bApp.plugins.lodash'])
     
-    .provider('YTParser', [ function() { 
+    .provider('YTParser', [function() { 
         'use strict';
+
+        //@todo safely obtain a reference to lodash
+        var _ = window._;
 
         this.$get = [function() {
             throw new Error('YTParser cannot be instantiated');
@@ -13,7 +16,7 @@ angular
             //FEEDs: watchhistory watchlater subscriptions liveevent favorites contacts inbox playlists uploads newsubscriptionvideos recentactivity
 
             var feeds = {};
-            angular.forEach(userItem.gd$feedLink || [], function(feed) {
+            _.each(userItem.gd$feedLink || [], function(feed) {
                 var ytFeedType = feed.rel || '';
                 var feedType = ytFeedType.substring(ytFeedType.lastIndexOf('.') + 1).toLowerCase();
                 feeds[feedType] = {
@@ -64,9 +67,9 @@ angular
         this.parseVideoList = function(videosList) {
             var parsedVideos = [];
 
-            angular.forEach(videosList || [], function(video) {
+            _.each(videosList || [], function(video) {
                 var acls = {};
-                angular.forEach(video.yt$accessControl, function(acl) {
+                _.each(video.yt$accessControl, function(acl) {
                     acls[acl.action] = acl.permission;
                 });
 
@@ -85,7 +88,7 @@ angular
                 }
 
                 var thumbnails = {};
-                angular.forEach(thumbsList, function(thumbnail) {
+                _.each(thumbsList, function(thumbnail) {
                     var name = thumbnail.yt$name;
                     delete thumbnail.yt$name;
                     thumbnails[name] = thumbnail;
@@ -143,7 +146,7 @@ angular
         this.parseActivities = function(activities) {
             var parsedActivities = [];
     
-            angular.forEach(activities, function(activity) {
+            _.each(activities, function(activity) {
                 var userId = activity.yt$userId ? activity.yt$userId.$t : null;
                 var channelId = activity.yt$channelId ? activity.yt$channelId.$t : null;
                 var updateDate = activity.updated.$t;
@@ -171,7 +174,7 @@ angular
         this.parsePlaylists = function(playlists) {
             var parsedPlaylists = [];
     
-            angular.forEach(playlists || [], function(playlist) {
+            _.each(playlists || [], function(playlist) {
                 parsedPlaylists.push({
                     id : playlist.yt$playlistId.$t,
                     title : playlist.title.$t,
@@ -191,7 +194,7 @@ angular
         this.parsePlaylistItems = function(playlistsItem) {
             var parsedPlaylistsItems = [];
     
-            angular.forEach(playlistsItem || [], function(playlistItem) {
+            _.each(playlistsItem || [], function(playlistItem) {
                 parsedPlaylistsItems.push(playlistItem.contentDetails.videoId);
             });
     

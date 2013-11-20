@@ -1,7 +1,10 @@
 angular
-    .module('U2bApp.directives.textbox', ['U2bApp.plugins.tip'])    
+    .module('U2bApp.directives.textbox', [
+        'U2bApp.plugins.lodash',
+        'U2bApp.plugins.tip'
+    ])    
     
-    .directive('textbox', ['$window', 'tip', function($window, tip) { 
+    .directive('textbox', ['_', '$window', 'tip', function(_, $window, tip) { 
         'use strict';
         
         var windowElem = angular.element($window);
@@ -28,7 +31,7 @@ angular
                     function (value){
                         var text = (value || '>> no description <<');
                         var html = '';                        
-                        angular.forEach(text, function(char){
+                        _.each(text, function(char){
                             var code = char.charCodeAt(0); 
                             if(code === 10 || code === 13){
                                 //LF or CR
@@ -38,7 +41,7 @@ angular
                         });
                         
                         var urls = html.match(/([^\]\/">]|^)((https?):\/\/[-A-ZÅÄÖ0-9+&@#\/%?=~_|!:,.;]*[-A-ZÅÄÖ0-9+&@#\/%=~_|])/ig);
-                        angular.forEach(urls, function(url){
+                        _.each(urls, function(url){
                             var anchor = '&nbsp;<a target="ytlink" href="'+ url +'">'+ url +'</a>';
                             html = html.replace(url,anchor);
                         });

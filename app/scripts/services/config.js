@@ -1,5 +1,5 @@
 angular
-    .module('U2bApp.services.config', [])
+    .module('U2bApp.services.config', ['U2bApp.plugins.lodash'])
     
     .constant('INVALID_TOKEN','_invalid_')
     
@@ -36,14 +36,14 @@ angular
     }])
         
     //@todo make this a 'module.provider' and receive the constants upon service initialization
-    .factory('ConfigService', ['providers', 'INVALID_TOKEN', function (providers, INVALID_TOKEN) {
+    .factory('ConfigService', ['_', 'providers', 'INVALID_TOKEN', function (_, providers, INVALID_TOKEN) {
         'use strict';
         
         var config = {
             providers : {}
         };
         
-        angular.forEach(providers,  function(provider){ 
+        _.each(providers,  function(provider){ 
             config.providers[provider.id || INVALID_TOKEN] = provider; 
         });
         if (config.providers[INVALID_TOKEN]){

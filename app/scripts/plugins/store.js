@@ -4,7 +4,7 @@ angular
     .run(['$window', function($window) { 
         'use strict';
         
-        if (!$window.store) { throw new Error('missing "store.js" required to run CacheService'); }
+        if (!$window.store) { throw new Error('missing <store.js>'); }
     }])
     
     .factory('store', ['$window', function($window) { 

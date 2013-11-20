@@ -1,9 +1,13 @@
 angular
-    .module('U2bApp.services.oauth', ['U2bApp.services.config', 'U2bApp.services.cache'])
+    .module('U2bApp.services.oauth', [
+        'U2bApp.plugins.lodash',
+        'U2bApp.services.config', 
+        'U2bApp.services.cache'
+    ])
 
     //implementation of this service was based on [angular-oauth] [https://github.com/enginous/angular-oauth]
     
-    .factory('OAuthService', ['$window', '$http', '$q', '$rootScope', '$log', 'ConfigService', 'CacheService', function ($window, $http, $q, $rootScope, $log, Config, Cache) {
+    .factory('OAuthService', ['_', '$window', '$http', '$q', '$rootScope', '$log', 'ConfigService', 'CacheService', function (_, $window, $http, $q, $rootScope, $log, Config, Cache) {
         'use strict';
         
         var INVALID_TOKEN = '#invalid#';
@@ -11,7 +15,7 @@ angular
         
         var toQueryString = function(object){
             var str = [];
-            angular.forEach(object, function(value, key) {
+            _.each(object, function(value, key) {
                 str.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
             });
             return str.join('&');
@@ -115,7 +119,7 @@ angular
         };
     }])
     
-    .controller('CallbackCtrl', function($scope, $location) {
+    .controller('CallbackCtrl', ['_', '$scope', '$location', function(_, $scope, $location) {
         'use strict';
         
         /**
@@ -127,7 +131,7 @@ angular
          */
         var parseKeyValue = function (/**string*/keyValue) {
             var obj = {}, keyValuePair, key;
-            angular.forEach((keyValue || '').split('&'), function(keyValue){
+            _.each((keyValue || '').split('&'), function(keyValue){
                 if (keyValue) {
                     keyValuePair = keyValue.split('=');
                     key = decodeURIComponent(keyValuePair[0]);
@@ -146,4 +150,4 @@ angular
     
         window.opener.postMessage(params, '*');
         window.close();
-    });
+    }]);

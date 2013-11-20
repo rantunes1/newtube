@@ -1,6 +1,7 @@
 angular
     .module('U2bApp.controllers', [
         'U2bApp.plugins.toastr', //@todo delete after removing dependencies to toastr (implement NotificatonsService)
+        'U2bApp.plugins.lodash',
         'U2bApp.services.oauth',    
         'U2bApp.services.youtube',  
         'U2bApp.services.notifications',
@@ -20,8 +21,8 @@ angular
         });       
     }])
     
-    .controller('AppCtrl', ['$rootScope', '$scope', '$timeout', '$log', 'toastr', 'OAuthService', 'YTService', 
-    function($rootScope, $scope, $timeout, $log, toastr, OAuth, YTService){ 
+    .controller('AppCtrl', ['_', '$rootScope', '$scope', '$timeout', '$log', 'toastr', 'OAuthService', 'YTService', 
+    function(_, $rootScope, $scope, $timeout, $log, toastr, OAuth, YTService){ 
         'use strict';
         
         $log.log('CONTROLLER: App');
@@ -89,7 +90,7 @@ angular
                     $log.info('notifications %o', notifications);
                     
                     $scope.model.notifications = notifications;
-                    angular.forEach(notifications, function(notification){
+                    _.each(notifications, function(notification){
                         $timeout(function(){
                             //@todo call NotificationsService
                             toastr.info('notification :' + notification.title);        
@@ -130,7 +131,7 @@ angular
         $scope.model.playingVideoId = $routeParams.videoId;
     }])
     
-    .controller('SubscriptionsCtrl', ['$scope', '$log', function($scope, $log) { 
+    .controller('SubscriptionsCtrl', ['_', '$scope', '$log', function(_, $scope, $log) { 
         'use strict';
         
         $log.log('CONTROLLER: Subscriptions');
@@ -140,7 +141,7 @@ angular
                 return;
             }
             
-            angular.forEach($scope.model.subscriptionsfeed.videos, function(listVideo){
+            _.each($scope.model.subscriptionsfeed.videos, function(listVideo){
                 if(listVideo.id === video.id){
                     listVideo.activeThumbnail = ((listVideo.activeThumbnail || 'mqdefault') === 'mqdefault') ? 'hqdefault' : 'mqdefault';
                 }else{
