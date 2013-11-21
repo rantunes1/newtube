@@ -201,27 +201,29 @@ angular
                 })
             ).then( 
                 function(notificationsResponse){
-                    var newNotifications = (notificationsResponse.data || {}).notifications;
+                    var newNotifications = ((notificationsResponse.data || {}).notifications || []);
                     var existingNotifications = Cache.get('notifications');
-                    if(newNotifications && newNotifications.length !== 0){
+                    if(newNotifications.length !== 0){
                         if(!existingNotifications){
                             Cache.put('notifications', newNotifications.reverse()); //keep most recent at the end of the array
-                            defer.resolve([newNotifications.pop()]);                     
+                            defer.resolve([newNotifications.pop()]);
                             return;       
                         }
                         var latest = existingNotifications[existingNotifications.length-1]; //retrieve the latest from the end of the array
                         
+                        var notifications = [];
                         while(newNotifications.length){
-                            var testNotification = newNotifications.pop();
-                            if(testNotification.id === latest.id){ //we hit the previosly 'most recent'
-                                newNotifications = newNotifications || [];
-                                Cache.put('notifications', existingNotifications.concat(newNotifications.reverse()));
-                                defer.resolve(newNotifications);
-                                return;    
-                            } 
+                            var notification = newNotifications.pop();
+                            if(notification.id === latest.id){ //we hit the previosly 'most recent'                                
+                                notifications = newNotifications;
+                                newNotifications = [];                                
+                            }
                         }
-                    }                    
-                    defer.resolve([]); //no new notifications
+                        Cache.put('notifications', existingNotifications.concat(notifications));
+                        defer.resolve(notifications);
+                    }else{
+                        defer.resolve([]); //no new notifications    
+                    }
                 },
                 defer.reject
             );    

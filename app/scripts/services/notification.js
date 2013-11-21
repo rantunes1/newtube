@@ -4,10 +4,9 @@ angular
     .factory('NotificationsService', ['$log', 'toastr', function($log, toastr) {
         'use strict';
 
-        this.notifications = ['TESTE'];
         $log.log('toastr ',toastr);
 
-        //toastr option:
+        //toastr options:
         /*
          {
          "closeButton": true,
@@ -25,8 +24,8 @@ angular
          */
 
         return {
-            notify : function(/*message*/) {
-                return null;
+            info : function(message) {
+                toastr.info(message);
             }
         };
     }]); 

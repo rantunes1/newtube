@@ -1,6 +1,5 @@
 angular
     .module('U2bApp.controllers', [
-        'U2bApp.plugins.toastr', //@todo delete after removing dependencies to toastr (implement NotificatonsService)
         'U2bApp.plugins.lodash',
         'U2bApp.services.oauth',    
         'U2bApp.services.youtube',  
@@ -21,8 +20,8 @@ angular
         });       
     }])
     
-    .controller('AppCtrl', ['_', '$rootScope', '$scope', '$timeout', '$log', 'toastr', 'OAuthService', 'YTService', 
-    function(_, $rootScope, $scope, $timeout, $log, toastr, OAuth, YTService){ 
+    .controller('AppCtrl', ['_', '$rootScope', '$scope', '$timeout', '$log', 'OAuthService', 'NotificationsService', 'YTService', 
+    function(_, $rootScope, $scope, $timeout, $log, OAuth, Notifications, YTService){ 
         'use strict';
         
         $log.log('CONTROLLER: App');
@@ -92,8 +91,8 @@ angular
                     $scope.model.notifications = notifications;
                     _.each(notifications, function(notification){
                         $timeout(function(){
-                            //@todo call NotificationsService
-                            toastr.info('notification :' + notification.title);        
+                            $log.log('showing notification ', notification);
+                            Notifications.info('notification :' + notification.title);        
                         }, 0);
                     });
                         

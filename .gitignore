@@ -1,0 +1,7 @@
+/.project
+/node_modules
+/.settings
+/app/bower_components
+/.tmp
+/cert
+/dist
