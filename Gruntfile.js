@@ -27,9 +27,9 @@ module.exports = function(grunt) {
             },
             livereload : {
                 options : {
-                    livereload : '<%= connect.options.livereload %>',
-                    key : '<%= connect.options.key %>',
-                    cert : '<%= connect.options.cert %>'
+                    livereload : '<%= connect.options.livereload %>'//,
+                    //key : '<%= connect.options.key %>',
+                    //cert : '<%= connect.options.cert %>'
                 },
                 files : ['<%= yeoman.app %>/{,*/}*.html', '.tmp/styles/{,*/}*.css', '{.tmp,<%= yeoman.app %>}/scripts/**/*.js', '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}']
             }
@@ -52,11 +52,11 @@ module.exports = function(grunt) {
                 port : 9009,
                 // Change this to '0.0.0.0' to access the server from outside.
                 hostname : 'localhost',
-                protocol : 'https',
-                key : grunt.file.read('./cert/server.key').toString(),
-                cert : grunt.file.read('./cert/server.crt').toString(),
-                ca : grunt.file.read('./cert/ca.crt').toString(),
-                passphrase : 'grunt',
+                protocol : 'http',
+                //key : grunt.file.read('./cert/server.key').toString(),
+                //cert : grunt.file.read('./cert/server.crt').toString(),
+                //ca : grunt.file.read('./cert/ca.crt').toString(),
+                //passphrase : 'grunt',
                 livereload : 35729
             },
             livereload : {

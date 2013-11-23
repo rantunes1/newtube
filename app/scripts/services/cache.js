@@ -69,9 +69,11 @@ angular
             } else {
                 if (key) {
                     key = key.toString();
+                        
                     delete _storage[key];
                     _cache.remove(key.toString());
-                    if (store.has(key)) {
+                    
+                    if ((options.transient !== true) && store.has(key)) {
                         store.remove(key);
                         $log.log('STORE: removed [%o] : %o', key);
                     } else {
@@ -81,9 +83,14 @@ angular
             }
             return value;
         };
+        
+        var remove = function(key, transient){
+            put(key, null, transient);
+        };
     
         return {
             put : put,
-            get : get
+            get : get,
+            remove: remove
         };
     }]); 

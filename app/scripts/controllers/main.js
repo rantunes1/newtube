@@ -28,7 +28,7 @@ angular
         
         $scope.model = {};
         
-        $scope.model.authenticate = OAuth.authenticate;
+        $scope.auth = OAuth;
         
         //@todo make OauthService be the listener for this event and remove OAuth from parameters list
         $rootScope.$on('user.not.authenticated', function(){
@@ -43,13 +43,22 @@ angular
             function (newValue, oldValue) {
                 $log.log('change detected on Token value : %o --> %o', oldValue, newValue);
                 $scope.model.accessToken = newValue;
+                
                 if(!newValue){
                     return;
                 }
                 
-                YTService.getUserData().then(function(user){
-                    $log.log('and the user is....: %o', user); 
-                });            
+                var user = OAuth.getUser();
+                if(!user){
+                    YTService.getCurrentUser().then(function(user){
+                        OAuth.setUser(null, user);
+                        $scope.model.user = user;
+                    });    
+                }else{
+                    $scope.model.user = user;
+                }
+                                
+                            
                 
                 YTService.getUserSubscriptions().then(
                     function(subscriptions){

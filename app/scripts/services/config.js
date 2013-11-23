@@ -15,7 +15,7 @@ angular
         },
         oauth: {
             'client_id': '453427542929.apps.googleusercontent.com',                
-            'redirect_uri': 'https://localhost:9009/oauth2callback.html',
+            'redirect_uri': 'http://localhost:9009/oauth2callback.html',
             'response_type': 'token',
             url: 'https://accounts.google.com/o/oauth2/auth',
             scope: [
@@ -24,7 +24,7 @@ angular
                 'https://www.googleapis.com/auth/youtubepartner', 
                 'https://www.googleapis.com/auth/userinfo.email'
             ].join(' '),
-            'approval_prompt': 'auto' || 'force',
+            'approval_prompt': 'force' || 'auto',
             state: null,
             'login_hint': null    
         },

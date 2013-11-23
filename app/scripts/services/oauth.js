@@ -21,8 +21,8 @@ angular
             return str.join('&');
         };
 
-        var setToken = function(tokenDefinition, oauthConfig){
-            $log.log('saving oauth token ', tokenDefinition);
+        var setAccessToken = function(tokenDefinition, oauthConfig){
+            $log.log('OAUTH: saving oauth token ', tokenDefinition);
             
             if(!tokenDefinition){
                 return;
@@ -47,7 +47,7 @@ angular
                     $http(verificationParams).then(
                         function(verificationResponse){
                             var verification = verificationResponse.data;
-                            $log.log('verification response : ',verification);
+                            $log.log('OAUTH: verification response : ',verification);
                             
                             var checkFieldParam = tokenVerification ? tokenVerification.get('checkField') : null;
                             //var checkField = checkFieldParam ? oauthConfig.get(checkFieldParam) : null; 
@@ -100,11 +100,25 @@ angular
             angular.element($window).on('message', function(event) {
                 event = event.originalEvent || event;
                 if (event.source === popup && event.origin === window.location.origin) {
-                    setToken(event.data, oauthConfig);
+                    setAccessToken(event.data, oauthConfig);
                 }
             });
                        
             return null;                
+        };
+        
+        var getUser = function(){
+            return Cache.get('u-default');
+        };
+        
+        var setUser = function(user){
+            if(user){
+                Cache.put('u-default', user, true);
+            }
+        };
+        
+        var logout = function(){
+            Cache.remove('ua');
         };
         
         return {
@@ -112,10 +126,10 @@ angular
                 return angular.isString(getAccessToken());
             },
             getAccessToken: getAccessToken,
+            getUser: getUser,
+            setUser: setUser,
             authenticate: authenticate,
-            logout: function(){
-                setToken(null);
-            }
+            logout: logout
         };
     }])
     

@@ -109,29 +109,21 @@ angular
             };
         };
         
-        var getUserData = function(userId){
+        var getCurrentUser = function(){
             var defer = $q.defer();
-            
-            userId = userId || 'default';
-            
-            var userData = Cache.get('u-' + userId);
-            
-            if(userData){
-                defer.resolve(userData);
-            }else{
-                $http(angular.extend({},_getRequestConfig(),{
-                    url: 'https://gdata.youtube.com/feeds/api/users/' + userId,
-                    method: 'get'
-                }))
-                .then(
-                    function(userResponse){
-                        var user = userResponse.data;    
-                        $log.warn('received user : ', user);                     
-                        defer.resolve(Cache.put('u-' + userId, user));
-                    },
-                    defer.reject
-                );
-            }
+
+            $http(angular.extend({},_getRequestConfig(),{
+                url: 'https://gdata.youtube.com/feeds/api/users/default',
+                method: 'get'
+            }))
+            .then(
+                function(userResponse){
+                    var user = userResponse.data;    
+                    $log.log('received user : ', user);                     
+                    defer.resolve(user);
+                },
+                defer.reject
+            );
             
             return defer.promise;
         };
@@ -301,7 +293,7 @@ angular
         };
         
         return {        
-            getUserData: getUserData,
+            getCurrentUser: getCurrentUser,
             getUserSubscriptions: getUserSubscriptions,
             getUserPlaylists: getUserPlaylists,
             getNotifications: getNotifications,

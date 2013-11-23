@@ -27,7 +27,7 @@ angular
 
             return {
                 id : userItem.yt$userId.$t, //id
-                gplusId : userItem.yt$googlePlusUserId.$t,
+                gplusId : userItem.yt$googlePlusUserId ? userItem.yt$googlePlusUserId.$t : null,
                 channelId : userItem.yt$channelId.$t,
                 title : userItem.title.$t,
                 created : userItem.published ? new Date(userItem.published.$t) : null,

@@ -36,13 +36,72 @@
         <![endif]-->
 
         <div ng-controller="AppCtrl">
-            <div class="row" ng-show="!model.accessToken" style="display: none">
-                <div class="col-md-offset-4 col-md-4 col-sm-offset-4 col-sm-5 col-xs-offset-4 col-xs-6">
-                    <button class="btn btn-lg btn-block btn-primary" type="button" ng-click="model.authenticate()">log in</button>    
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div ng-show="!model.accessToken" style="display: none">
+                    <div class="col-md-offset-4 col-md-4 col-sm-offset-4 col-sm-5 col-xs-offset-4 col-xs-6">
+                        <button class="btn btn-lg btn-block btn-primary" type="button" ng-click="auth.authenticate()">log in</button>    
+                    </div>
                 </div>
-            </div>
+                
+                <div ng-show="model.accessToken" style="display: none">
+                    <div class="navbar-header">
+                        <div class="media" ng-show="model.user">
+                            <a class="pull-left" href="/profile">
+                                <img class="media-object" height="64" src="{{model.user.thumbnail}}" alt="{{model.user.displayName}}">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{model.user.displayName}}</h4>
+                            </div>                            
+                        </div>                        
+                    </div>
+                    <button class="btn pull-right" ng-click="auth.logout()">logout</button>
+                    
+                    <!--div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="/subscriptions">My Subscriptions</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Link</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div-->
+                </div>
+            </nav>
 
-            <div ng-show="model.accessToken" style="display: none" class="container" ng-view> </div>
+            <div ng-show="model.accessToken" style="display: none" class="container" ng-view></div>
+            
+            <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+                <p class="navbar-text"><!--made by Ricardo Antunes--> 2013</p>
+            </nav>
+            
+            
         </div>
 
         <!-- build:js scripts/plugins.js -->
