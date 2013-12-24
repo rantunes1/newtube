@@ -1,0 +1,7 @@
+<div masonry="" ng-mouseleave="unsetActiveVideo()">
+    <div id="{{ video.id }}" ng-repeat="video in videos track by $index">
+        <div class="masonry-brick">
+            <video-grid-item video="video" ng-mouseenter="setActive()"></video-grid-item>
+        </div>
+    </div>
+</div>

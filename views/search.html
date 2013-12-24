@@ -1,0 +1,84 @@
+<div ng-controller="SearchCtrl">
+    <form class="form-horizontal" role="form">
+        <fieldset>
+            <div class="form-group">
+                <label class="control-label col-md-1" for="category">Category:</label>
+                <div class="col-md-2">
+                    <select id="category" class="form-control" ng-model="model.query.category" ng-options="category.text for category in model.searchOptions.category track by category.value">
+                        <option value=""></option>    
+                    </select>
+                </div>
+                
+                <label class="control-label col-md-1" for="orderby">Order&nbsp;by:</label>
+                <div class="col-md-2">
+                    <select id="orderby" class="form-control col-md-3" ng-model="model.query.orderby" ng-options="orderby.text for orderby in model.searchOptions.orderby track by orderby.value"></select>
+                </div>
+                
+                <label class="control-label col-md-1" for="duration">Duration:</label>
+                <div class="col-md-2">
+                    <select id="duration" class="form-control" ng-model="model.query.duration" ng-options="duration.text for duration in model.searchOptions.duration track by duration.value">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <label class="control-label col-md-1" for="time">From:</label>
+                <div class="col-md-2">
+                    <select id="time" class="form-control" ng-model="model.query.time" ng-options="time.text for time in model.searchOptions.time track by time.value"></select>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="form-group">
+                <label class="control-label col-md-1" for="caption">Captions:</label>
+                <div class="col-md-2">
+                    <select id="caption" class="form-control" ng-model="model.query.caption" ng-options="caption.text for caption in model.searchOptions.caption track by caption.value">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <label class="control-label col-md-1" for="license">License:</label>
+                <div class="col-md-2">
+                    <select id="license" class="form-control" ng-model="model.query.license" ng-options="license.text for license in model.searchOptions.license track by license.value">
+                        <option value=""></option>
+                    </select>
+                </div>
+                
+                <label class="control-label col-md-1" for="safeSearch">Safe search:</label>
+                <div class="col-md-2">
+                    <select id="safeSearch" class="form-control" ng-model="model.query.safeSearch" ng-options="safeSearch.text for safeSearch in model.searchOptions.safeSearch track by safeSearch.value">
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <div class="form-group">
+                <label class="control-label col-md-1" for="query">Query:</label>
+                <div class="col-md-6">
+                    <input id="query" class="form-control" type="search" ng-model="model.query.q">
+                    <span class="help-block">Your request can also use the Boolean NOT (-) and OR (|)</span>
+                </div>
+                
+                <button class="btn btn-primary" ng-click="model.search()">Search</button>
+                
+                <label class="control-label col-md-1" for="lr">language:</label>
+                <div class="col-md-2">
+                    <select id="lr" class="form-control" ng-model="model.query.lr" ng-options="key as lang.name for (key, lang) in model.searchOptions.lr">
+                    </select>
+                </div>
+                
+                
+            </div>
+        </fieldset> 
+        
+        <!--select ng-model="model.query.lr" ng-options="time.text for time in model.searchOptions.lr track by time.value"></select>
+        author
+        3d (true restricts to only 3d)
+        hd (true restricts to only 3d)-->
+    </form>
+    
+    <div id="viewport" class="row">    
+        <video-grid videos="model.searchResults.videos"></video-grid>
+    </div>
+</div>

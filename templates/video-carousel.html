@@ -1,0 +1,19 @@
+<div class="playlist">
+    <div class="player" ng-show="playingVideo">
+        <h2>
+            <channel-link id="playingVideo.channelId || playingVideo.author.id">{{playingVideo.channelTitle || playingVideo.author.name}}</channel-link>
+            <span> - </span>
+            <span><small><strong>{{playingVideo.title}}</strong></small></span>
+        </h2>
+        
+        <video-player video-id="playingId || ''" format="playingVideo.aspectRatio" on-end="playNext()"></video-player>
+    </div>
+    
+    <hr>        
+    
+    <div class="owl-carousel">
+        <div id="{{ video.id }}" ng-click="playNext(video.id)" ng-repeat="video in videos track by $index">
+            <video-carousel-item class="{{playingVideo ? 'playing':''}}" video="video" ng-mouseenter="setActive()"></video-carousel-item>
+        </div>        
+    </div>
+</div>

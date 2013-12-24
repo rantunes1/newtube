@@ -1,0 +1,43 @@
+<div class="user-info">
+    <div class="media">
+        <img class="pull-right media-object img-responsive" ng-src="{{user.thumbnail}}" alt="{{user.title}}">
+        <div class="media-body">
+            <h4 class="media-heading">About Me:</h4>
+            <div ng-show="user.id">id : {{user.id}}</div>
+            <div ng-show="user.gplusId">goole+ id : {{user.gplusId}}</div>
+        </div>
+    </div>
+        
+    <div ng-show="user.firstName">first name : {{user.firstName}}</div>
+    <div ng-show="user.lastName">last name : {{user.lastName}}</div>
+    
+    <div ng-show="user.aboutMe">about : {{user.aboutMe}}</div>
+    <div ng-show="user.age">age : {{user.age}}</div>
+    <div ng-show="user.gender">gender : {{user.gender}}</div>
+
+    <div ng-show="user.location">location : {{user.location}}</div>
+    <div ng-show="user.hometown">hometown : {{user.hometown}}</div>
+    
+    <div ng-show="user.company">company : {{user.company}}</div>
+    <div ng-show="user.occupation">occupation : {{user.occupation}}</div>
+
+    <div ng-show="user.movies">movies : {{user.movies}}</div>
+    <div ng-show="user.music">music : {{user.music}}</div>                            
+    <div ng-show="user.books">books : {{user.books}}</div>
+    <div ng-show="user.hobbies">hobbies : {{user.hobbies}}</div>                            
+    <div ng-show="user.school">school : {{user.school}}</div>
+
+    <h4>About this  channel:</h4>
+        <div ng-show="user.channelId">id : <channel-link id="user.channelId">{{user.channelId}}</channel-link>
+        <div ng-show="user.created">created {{user.created | timeago}} on {{user.created | date:'dd-MM-yyyy HH:mm'}}</div>   
+        <div ng-show="user.lastChanged">last changed : {{user.lastChanged | timeago}} on {{user.lastChanged | date:'dd-MM-yyyy HH:mm'}}</div>
+
+    <h4>Statistics</h4>    
+        <div ng-show="user.statistics && user.statistics.favorited">favorited : {{user.statistics.favorited}}</div>
+        <div ng-show="user.statistics && user.statistics.subscribers">subscribers : {{user.statistics.subscribers}}</div>
+        <div ng-show="user.statistics && user.statistics.views">views : {{user.statistics.views}}</div>
+        <div ng-show="user.statistics && user.statistics.watched">watched : {{user.statistics.watched}}</div>
+        <div ng-show="user.statistics && user.maxUploadDuration">max. upload duration : {{user.maxUploadDuration}}</div>
+         
+    @todo ? feeds
+</div></div>

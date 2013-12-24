@@ -1,0 +1,29 @@
+<div ng-controller="PlaylistCtrl">
+    
+    <a href="/">back</a>
+    
+    <div ng-show="model.playlist.id">        
+        <h1>    
+            <img ng-src="{{model.playlist.thumbnails.medium.url}}" width="15%">
+            <channel-link textbox="" title="goto channel page" id="model.playlist.channelId">{{model.playlist.channelTitle}}</channel-link>
+            <sup>
+                <span textbox="" title="This is a private playlist">
+                    <small><i class="fa fa-lock text-warning" ng-show="!model.playlist.isPublic"></i></small>
+                </span>
+            </sup>
+            <span> - {{model.playlist.title}}</span>
+        </h1>
+        
+        <div ng-bind-html-unsafe="model.playlist.description"></div>
+        
+        <div ng-show="model.playlist.videos.length" ng-switch="model.viewer">
+            <div ng-switch-when="carousel">
+                <video-carousel videos="model.playlist.videos"></video-carousel>    
+            </div>
+            <div ng-switch-default="">
+                <video-grid videos="model.playlist.videos"></video-grid>
+            </div>    
+        </div>        
+    </div>
+</div>
+<button class="btn btn-lg btn-danger" ng-click="model.changeViewer()">CHANGE IT!</button>

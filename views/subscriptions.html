@@ -1,0 +1,79 @@
+<div ng-show="model.accessToken" ng-controller="SubscriptionsCtrl">
+
+    <!-- playlists' context menu -->
+    <div class="btn-group-vertical" id="user-playlists" role="menu" ng-show="false" ng-class="{'pre-scrollable': model.playlistsfeed.playlists.length>4}">
+        
+        <button id="{{ playlist.id }}" class="btn btn-default" ng-repeat="playlist in model.playlistsfeed.playlists" style="min-width:200px">
+            <div><small><playlist-link id="playlist.id">{{ playlist.title }}</playlist-link><small>({{ playlist.numVideos }})</small></small></div>
+            <div class="progress" style="width:auto">
+                <div class="progress-bar" role="progressbar" aria-valuenow="playlist.numVideos" aria-valuemin="0" aria-valuemax="100" ng-class="{ 
+                    'progress-bar-success' : ((playlist.numVideos || 0)*100/200) < 60,
+                    'progress-bar-warning' : ((playlist.numVideos || 0)*100/200) >= 60 && ((playlist.numVideos || 0)*100/200) < 80,
+                    'progress-bar-danger' : ((playlist.numVideos || 0)*100/200) >= 80
+                }" style="width: {{(playlist.numVideos || 0)*100/200}}%"></div>
+            </div>
+        </button>
+    </div>
+
+    <!-- toolbar -->
+    <div class="navbar navbar-inverse navbar-top" role="navigation" ng-show="model.user.subscriptions.length">
+        <div class="btn-toolbar" role="toolbar">
+            <form class="form-inline" role="form">
+            <ul class="nav navbar-nav">
+                <li>
+                    <div class="btn-group">
+                        <div class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span><strong>Sort by</strong></span>
+                            <span class="text-info">{{model.sorter.active.label}}</span>
+                            <i class="fa fa-caret-up"></i>
+                        </div>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li class="{{ model.sorter.active.label === sorter.label ? 'active disabled': ''}}" ng-repeat="sorter in model.sorters">
+                                <a type="button" class="brn btn-default" ng-click="model.sorter.sort(sorter)">{{sorter.label}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn btn-default" ng-click="model.sorter.changeDirection()">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-sort-desc fa-stack-1x" ng-class="{'text-danger':!model.sorter.isAscending()}"></i>
+                            <i class="fa fa-sort-asc fa-stack-1x" ng-class="{'text-danger':model.sorter.isAscending()}"></i>
+                        </span>        
+                    </div>
+                </li>        
+            
+                <li>
+                    <div class="form-group">
+                        <i title="filter" class="fa fa-filter"></i>
+                        <input id="filter-channel" name="filter-channel" type="text" ng-model="model.filters.channel.value" ng-disabled="model.filters.running" placeholder="channel" typeahead="channel for channel in model.getSubscriptionChannels() | filter:$viewValue | limitTo:8" typeahead-wait-ms="100" typeahead-on-select="model.filters.apply()">
+                        <input id="filter-title" name="filter-title" type="text" ng-model="model.filters.title.value" ng-disabled="model.filters.running" placeholder="video title" typeahead="title for title in model.getVideoTitles() | filter:$viewValue | limitTo:8" typeahead-wait-ms="100" typeahead-on-select="model.filters.apply()">
+                    </div>                    
+                </li>
+            
+                <li>
+                    <div class="btn-group">
+                        <div type="button" class="btn btn-default">
+                            <label>Show </label>
+                        </div>
+                        <div type="button" class="btn btn-default">
+                            <label for="filter-hidden">hidden</label>
+                            <input id="filter-hidden" name="filter-hidden" type="checkbox" ng-model="model.filters.hidden.value" ng-disabled="model.filters.running">
+                        </div>
+                        <div type="button" class="btn btn-default">
+                            <label for="filter-watched">watched</label>
+                            <input id="filter-watched" name="filter-watched" type="checkbox" ng-model="model.filters.watched.value" ng-disabled="model.filters.running"> 
+                        </div>
+                        <div type="button" class="btn btn-default">
+                            <label for="filter-liked">liked</label>
+                            <input id="filter-liked" name="filter-liked" type="checkbox" ng-model="model.filters.liked.value" ng-disabled="model.filters.running">
+                        </div>
+                    </div>        
+                </li>
+            </ul>
+            </form>
+        </div>
+    </div>
+    
+    <div id="viewport" class="row">    
+        <video-grid videos="model.subscriptionsfeed.videos"></video-grid>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<a href="/">back</a>
+
+<div ng-controller="ChannelCtrl" class="container">
+    <div class="row">
+        <img class="pull-left media-object img-responsive" ng-src="{{model.channel.thumbnails.medium.url}}">
+        <div>
+            <h2>{{model.channel.title}}</h2>
+            <span ng-show="{{model.channel.created}}"><small>created {{model.channel.created | timeago}} on {{model.channel.created | date}}</small></span>    
+        </div>   
+        <hr>
+        <div ng-bind-html-unsafe="model.channel.description"></div>
+    </div>
+    
+    <div class="row">        
+        <ul class="ca-menu">
+            <li ng-show="model.channel.specialPlaylists.uploads">
+                <playlist-link id="model.channel.specialPlaylists.uploads">
+                    <i class="ca-icon fa fa-video-camera fa-3x"></i>
+                    <h2 class="ca-main">Uploads</h2>
+                </playlist-link>
+            </li>
+            <li ng-show="model.channel.specialPlaylists.likes">
+                <playlist-link id="model.channel.specialPlaylists.likes">
+                    <i class="ca-icon fa fa-thumbs-o-up fa-3x"></i>
+                    <h2 class="ca-main">Likes</h2>
+                </playlist-link>
+            </li>
+            <li ng-show="model.channel.specialPlaylists.favorites">
+                <playlist-link id="model.channel.specialPlaylists.favorites">
+                    <i class="ca-icon fa fa-heart-o fa-3x"></i>
+                    <h2 class="ca-main">Favorites</h2>
+                </playlist-link>        
+            </li>
+            <li ng-show="model.channel.specialPlaylists.watchLater">
+                <playlist-link id="model.channel.specialPlaylists.watchLater">
+                    <i class="ca-icon fa fa-clock-o fa-3x"></i>
+                    <h2 class="ca-main">Watch later</h2>
+                </playlist-link>        
+            </li>
+            <li ng-show="model.channel.specialPlaylists.watchHistory">
+                <playlist-link id="model.channel.specialPlaylists.watchHistory">
+                    <i class="ca-icon fa fa-film fa-3x"></i>
+                    <h2 class="ca-main">Watch history</h2>
+                </playlist-link>        
+            </li>
+        </ul>
+        
+        <div>statistics.commentCount - {{model.channel.statistics.commentCount}}</div>
+        <div>statistics.subscriberCount  - {{!model.channel.statistics.hiddenSubscriberCount ? model.channel.statistics.subscriberCount : 0}}</div>
+        <div>statistics.videoCount - {{model.channel.statistics.videoCount}}</div>
+        <div>statistics.viewCount - {{model.channel.statistics.viewCount}}</div>
+    </div>
+</div>

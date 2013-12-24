@@ -1,0 +1,164 @@
+<div id="{{ video.id }}-description" ng-show="false">                    
+        <h4>
+            <!-- number of views -->
+            <div class="video-info-views label label-warning" ng-show="video.ratings.viewCount" title="{{ video.ratings.viewCount | number}} views">
+                <i class="fa fa-eye"></i>
+                <span>&nbsp;{{ video.ratings.viewCount | number }}</span>
+                <span ng-show="video.ratings.viewCount == 301">+</span>
+            </div>
+            
+            <!-- number of comments -->
+            <div class="video-info-comments label label-info" ng-show="video.comments > 0 || video.comments.count > 0" title="{{ (video.comments.count || video.comments) | number }} comments">
+                <i class="fa fa-comment"></i>
+                <span>&nbsp;{{ (video.comments.count || video.comments) | number }}</span>
+            </div>
+        </h4>
+        <h4>
+            <div class="video-info-ratings label label-success" ng-show="video.ratings.numLikes" title="{{ video.ratings.numLikes | number }} likes">
+                <i class="fa fa-thumbs-up"></i>
+                <span class="fa-stack">
+                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                    <i class="fa fa-thumbs-up fa-stack-1x"></i>
+                </span>
+                <span>&nbsp;{{video.ratings.numLikes | number }}</span>
+            </div>
+
+            <div class="video-info-ratings label label-danger" ng-show="video.ratings.numDislikes" title="{{ video.ratings.numDislikes | number }} dislikes">
+                <i class="fa fa-thumbs-down"></i>
+                <span class="fa-stack">
+                    <i class="fa fa-circle-o fa-stack-2x"></i>
+                    <i class="fa fa-thumbs-down fa-stack-1x"></i>
+                </span>
+                <span>&nbsp;{{ video.ratings.numDislikes | number }}</span>
+            </div>
+        </h4>
+
+        <!-- video description -->
+        <div ng-show="video.description">
+            <hr>
+            <div ng-bind-html-unsafe="video.description"></div>    
+        </div>
+        
+    </div>
+                    
+    <div ng-class="{ fadded: hasActive && !activeVideo, highlighted: activeVideo }" style="width:{{ video.thumbnails[video.activeThumbnail].width }}px; 
+            height:{{ video.thumbnails[video.activeThumbnail].height }}px">
+        
+        <div>
+            <!-- video thumbnail -->
+            <img class="img-rounded img-responsive thumbnail" ng-src="{{ getVideoThumbnail() }}" alt="{{ video.title }}">
+                                              
+            <div class="overlayed header">
+                <!-- duration -->
+                <div class="video-info-duration label label-default" ng-show="video.duration" title="duration: {{video.duration | duration}}">
+                    <i class="fa fa-clock-o"></i>
+                    <span>&nbsp;{{video.duration | duration}}</span>
+                </div>                            
+                
+                <!-- status -->
+                <div class="video-info-status label label-primary" ng-show="video.watched || video.liked || video.hidden">
+                    <i ng-show="video.watched" class="fa fa-check text-success" title="watched"></i>
+                    <i ng-show="video.liked" class="fa fa-thumbs-up" title="liked"></i>
+                    <i ng-show="video.hidden" class="fa fa-eye-slash" title="hidden"></i>
+                </div>
+            </div>
+                                        
+            <div class="overlayed header action">
+                <!-- actions menu -->
+                <button textbox="{style:{classes:'qtip-bootstrap'}}" title="#{{ video.id }}-actions" ng-show="activeVideo" title="more actions" class="btn btn-link pull-right"> 
+                    <i class="fa fa-chevron-down fa-inverse fa-2x text-primary"></i> 
+                </button>                                                        
+            </div>
+            
+            <div id="{{ video.id }}-actions" class="btn-group-vertical" role="menu" ng-show="false">
+                <button class="btn btn-default" ng-show="!video.liked" ng-click="model.likeVideo(video.id)">
+                    <span class="pull-left"><span class="text-success"><i class="fa fa-thumbs-up"></i></span> Like</span>
+                </button>
+                <button class="btn btn-default" ng-show="video.liked" ng-click="model.unlikeVideo(video.id)">
+                    <span class="pull-left"><span class="text-info"><i class="fa fa-thumbs-o-up"></i></span> Unlike</span>
+                </button>                                
+                <button class="btn btn-default" ng-show="!video.hidden" ng-click="model.hideVideo(video.id)">
+                    <span class="pull-left"><span class="text-info"><i class="fa fa-eye-slash"></i></span> Hide</span>
+                </button>
+                <button class="btn btn-default" ng-show="video.hidden" ng-click="model.showVideo(video.id)">
+                    <span class="pull-left"><span class="text-info"><i class="fa fa-eye"></i></span> Show</span>
+                </button>
+                <!-- @todo button class="btn btn-default">hide all from this channel</button -->
+                <button class="btn btn-default" ng-show="!video.watched" ng-click="model.markVideoWatched(video.id)">
+                    <span class="pull-left"><span class="text-success"><i class="fa fa-check"></i></span> Watched</span>
+                </button>
+                <button class="btn btn-default" ng-click="model.watchLater(video.id)">
+                    <span class="pull-left"><span class="text-info"><i class="fa fa-clock-o"></i></span> Watch later</span>
+                </button>
+                
+                <button class="btn btn-default" ng-click="model.unsubscribe(video)">
+                    <span class="pull-left"><span class="text-danger"><i class="fa fa-trash-o"></i></span> Unsubscribe</span>
+                </button>
+                
+                <button class="btn btn-default" title="#user-playlists" ng-disabled="!model.playlistsfeed.playlists" textbox="{
+                    position:{
+                        my: 'center top',
+                        at: 'center center',
+                        adjust:{
+                            y: 10
+                        }
+                    },
+                    style:{
+                        classes:'qtip-bootstrap'
+                    }, 
+                    show:{
+                        delay: 500, 
+                        solo: false
+                    }
+                    
+                }">
+                    <span class="pull-left">
+                        <span class="text-info"><i class="fa fa-floppy-o"></i></span>
+                        <span>Add to playlist</span>
+                        <i class="fa fa-chevron-right"></i> 
+                    </span>
+                </button>
+            </div>
+
+            <div class="overlayed body action" ng-show="activeVideo">
+                <!-- play video -->
+                <video-link class="btn btn-link" id="video.id"><i class="fa fa-youtube-play fa-inverse text-success fa-2x"></i></video-link>                           
+            </div>
+            
+            <div class="overlayed footer">                            
+                <div class="video-info-title">
+                    <!-- video channel -->
+                    <div ng-switch="activeVideo">
+                        <div ng-switch-when="true">
+                            <channel-link id="video.channelId || video.author.id">
+                                <div class="label label-info">{{video.channelTitle || video.author.name}}</div>
+                            </channel-link>        
+                        </div>
+                        <div ng-switch-default="">
+                            <div class="label label-default">{{video.channelTitle || video.author.name}}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- video title -->
+                    <div class="{{activeVideo ? 'btn-default rounded' : ''}}">
+                        <small><strong>{{video.title}}</strong></small>
+                    </div>
+                    
+                    <!-- video published date -->
+                    <div class="video-info-published label label-default pull-right" textbox="{position: {my: 'top right',at: 'center left'}}" title="{{video.published | date:'dd-MM-yyyy HH:mm'}}" ng-show="activeVideo">
+                        <i class="fa fa-clock-o"></i>
+                        <span>&nbsp;{{video.published | timeago}}</span>
+                    </div>    
+                </div>                                                                                                                                                           
+            </div>
+            
+            <div class="overlayed footer action">
+                <!-- access video information -->
+                <div class="textbox" title="#{{ video.id }}-description" ng-show="activeVideo">
+                    <button class="btn btn-link pull-right"> 
+                        <i class="fa fa-info fa-inverse fa-2x text-info"></i> 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

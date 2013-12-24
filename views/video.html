@@ -1,0 +1,17 @@
+<div ng-controller="VideoCtrl"> 
+    <h1>{{ model.video.title }}</h1>
+    <h2>{{ model.video.channelTitle}}</h2>
+
+    <a href="/">back</a>
+    
+    <label>Player Size</label>
+    
+    
+    <video-player video-id="model.playingVideoId || ''"></video-player>
+  
+    <hr>
+    
+    <comments val="model.commentsData.comments"></comments>
+    
+    <div ng-bind-html-unsafe="video.description"></div> 
+</div>
