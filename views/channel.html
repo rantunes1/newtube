@@ -2,12 +2,34 @@
 
 <div ng-controller="ChannelCtrl" class="container">
     <div class="row">
-        <img class="pull-left media-object img-responsive" ng-src="{{model.channel.thumbnails.medium.url}}">
+        <img class="channel-thumb pull-left media-object img-responsive" ng-src="{{model.channel.thumbnails.medium.url}}">
         <div>
             <h2>{{model.channel.title}}</h2>
-            <span ng-show="{{model.channel.created}}"><small>created {{model.channel.created | timeago}} on {{model.channel.created | date}}</small></span>    
+            <span ng-show="{{model.channel.created}}"><small>created {{model.channel.created | timeago}} on {{model.channel.created | date}}</small></span>
+            <div>
+                <span class="label label-primary" ng-show="!model.channel.statistics.hiddenSubscriberCount && model.channel.statistics.subscriberCount" title="Subscribers">
+                    <i class="fa fa-group"></i> {{(!model.channel.statistics.hiddenSubscriberCount ? model.channel.statistics.subscriberCount : 0) | number}}
+                </span>
+                <span>&nbsp;</span>
+                <span class="label label-primary" ng-show="model.channel.statistics.videoCount" title="Videos">
+                    <i class="fa fa-film"></i> {{model.channel.statistics.videoCount | number}}
+                </span>
+                <span>&nbsp;</span>
+                <span class="label label-primary" ng-show="model.channel.statistics.viewCount" title="Total Views">
+                    <i class="fa fa-eye"></i> {{model.channel.statistics.viewCount | number}}
+                </span>
+                <span>&nbsp;</span>
+                <span class="label label-primary" ng-show="model.channel.statistics.commentCount" title="Commented {{model.channel.statistics.commentCount | number}} times">
+                    <i class="fa fa-comment"></i> {{model.channel.statistics.commentCount | number}}
+                </span>    
+            </div>
         </div>   
+        
         <hr>
+        
+        
+        <hr>
+        
         <div ng-bind-html-unsafe="model.channel.description"></div>
     </div>
     
@@ -44,10 +66,5 @@
                 </playlist-link>        
             </li>
         </ul>
-        
-        <div>statistics.commentCount - {{model.channel.statistics.commentCount}}</div>
-        <div>statistics.subscriberCount  - {{!model.channel.statistics.hiddenSubscriberCount ? model.channel.statistics.subscriberCount : 0}}</div>
-        <div>statistics.videoCount - {{model.channel.statistics.videoCount}}</div>
-        <div>statistics.viewCount - {{model.channel.statistics.viewCount}}</div>
     </div>
 </div>

@@ -17,7 +17,7 @@
 
         <link rel="stylesheet" href="styles/d41d8cd9.plugins.css">
 
-        <link rel="stylesheet" href="styles/51ce2b9f.main.css">
+        <link rel="stylesheet" href="styles/0f2fd8c8.main.css">
     </head>
 
     <body ng-app="newtube" class="ng-cloak">
@@ -32,28 +32,63 @@
 
         <div ng-controller="AppCtrl">
             <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <!--div class="navbar-inner">
+                    <div class="container">
+                        <button type="button" class="btn btn-link" data-toggle="collapse" data-target=".nav-collapse">
+                            <i class="fa fa-bars fa-2x"></i>
+                        </button>
+                        <a class="brand" href="./index.html">Bootstrap</a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav">
+                                <li class="active">
+                                    <a href="./index.html">Home</a>
+                                </li>
+                                <li>
+                                    <a href="./getting-started.html">Get started</a>
+                                </li>
+                                <li>
+                                    <a href="./customize.html">Customize</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div-->
+                
                 <div ng-show="!model.accessToken" style="display: none">
                     <div class="col-md-offset-4 col-md-4 col-sm-offset-4 col-sm-5 col-xs-offset-4 col-xs-6">
                         <button class="btn btn-lg btn-block btn-primary" type="button" ng-click="auth.authenticate()">log in</button>    
                     </div>
                 </div>
                 
-                <div ng-show="model.accessToken && model.user">
-                    <button class="btn pull-right" ng-click="auth.logout()">logout</button>
-                    
+                
+                <div ng-show="model.accessToken && model.user" class="collapse navbar-collapse">
                     <user-info id="user-info" ng-show="false" user="model.user"></user-info>
+                
+                    <ul class="nav navbar-nav navbar-left" ng-show="model.accessToken && model.user">
+                        <li>
+                            <div textbox="{style: { classes: 'qtip-tipsy qtip-shadow' }}" title="#user-info">
+                                <div class="media" ng-show="model.user && model.user.thumbnail">
+                                    <img class="pull-left media-object img-responsive" width="80" ng-src="{{model.user.thumbnail}}" alt="{{model.user.title}}">
+                                </div>                        
+                            </div>
+                        </li>
+                        <li class="navbar-text">
+                            <channel-link id="model.user.channelId" class="text-info"><small title="{{model.user.username}}">{{model.user.title}}</small></channel-link>        
+                        </li>
+                        <li class="navbar-text active">
+                            <a href="#">Search Videos</a>
+                        </li>
+                        <li class="navbar-text">
+                            <a href="#/subscriptions">My subscriptions</a>
+                        </li>
+                    </ul>
                     
-                    <div class="navbar-header" textbox="{style: { classes: 'qtip-tipsy qtip-shadow' }}" title="#user-info">
-                        <div class="media" ng-show="model.user && model.user.thumbnail">
-                            <img class="pull-left media-object img-responsive" width="64" ng-src="{{model.user.thumbnail}}" alt="{{model.user.title}}">
-                        </div>                        
-                    </div>
-
-                    <div class="text-info" title="{{model.user.username}}">
-                        <small>{{model.user.title}}</small>
-                    </div>
-                    
-                    
+                    <ul class="nav navbar-nav navbar-right" ng-show="model.accessToken && model.user">
+                        <li class="navbar-text">
+                            <a href="#" ng-click="auth.logout()">logout</a>
+                        </li>
+                        <li></li>
+                    </ul>                        
                 </div>
             </nav>
 
@@ -66,6 +101,6 @@
 
         <script src="scripts/0c24483a.plugins.js"></script>
 
-        <script src="scripts/2ec25921.scripts.js"></script>
+        <script src="scripts/aad7317d.scripts.js"></script>
     </body>
 </html>
